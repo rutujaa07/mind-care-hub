@@ -12,6 +12,14 @@ import Inbox from "./pages/Inbox";
 import DMChat from "./pages/DMchat";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+function Layout({ children }) {
+  return (
+    <>
+      <Navbar />
+      {children}
+    </>
+  );
+}
 
 function App() {
   return (
