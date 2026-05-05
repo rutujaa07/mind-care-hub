@@ -52,14 +52,12 @@ function Home() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const heroBgRef = useRef(null);
 
-  // Navbar scroll effect
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Hero parallax
   useEffect(() => {
     const onScroll = () => {
       if (heroBgRef.current) {
@@ -72,22 +70,18 @@ function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Hero image load
   useEffect(() => {
     if (heroBgRef.current) {
       heroBgRef.current.classList.add("loaded");
     }
   }, []);
 
-  // Scroll reveal
   useEffect(() => {
     const reveals = document.querySelectorAll(".mcb-reveal");
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("visible");
-          }
+          if (e.isIntersecting) e.target.classList.add("visible");
         });
       },
       { threshold: 0.12 }
@@ -110,7 +104,6 @@ function Home() {
     { label: "Request Support", action: () => navigate("/support") },
     { label: "Inbox", action: () => navigate("/inbox") },
     { label: "My Profile", action: () => navigate(`/profile/${user?.id}`) },
-    // { label: "Resources", action: () => navigate("/resources") },
   ];
 
   return (
@@ -122,7 +115,6 @@ function Home() {
             <div className="mcb-logo-mark">🌿</div>
             <span className="mcb-logo-text">Mind Care Hub</span>
           </a>
-
           <ul className="mcb-nav-links">
             {navItems.map((item) => (
               <li key={item.label}>
@@ -135,7 +127,6 @@ function Home() {
               </button>
             </li>
           </ul>
-
           <button
             className="mcb-hamburger"
             onClick={() => setMobileOpen(true)}
@@ -209,6 +200,21 @@ function Home() {
                 Talk to a Counselor
               </button>
             </div>
+
+            {/* ── STATS BAR ── */}
+            <div className="mcb-hero-stats">
+              {[
+                { num: "12,400+", label: "Lives Supported" },
+                { num: "98%", label: "Feel Less Alone" },
+                { num: "340+", label: "Verified Counselors" },
+                { num: "4.9★", label: "User Rating" },
+              ].map((s, i) => (
+                <div className="mcb-hero-stat" key={i}>
+                  <div className="mcb-hero-stat-num">{s.num}</div>
+                  <div className="mcb-hero-stat-label">{s.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <div className="mcb-hero-scroll">
@@ -249,7 +255,6 @@ function Home() {
                 Care Hub brings together community, counselors, and tools so you
                 never have to face your struggles alone.
               </p>
-
               <div className="mcb-features-list">
                 {[
                   {
@@ -323,7 +328,6 @@ function Home() {
                 our admin team. They begin with free consultations so you can
                 find the right fit before committing to paid sessions.
               </p>
-
               <div className="mcb-counselor-stats">
                 {[
                   { num: "100%", label: "Verified" },
@@ -336,7 +340,6 @@ function Home() {
                   </div>
                 ))}
               </div>
-
               <div style={{ marginTop: "32px" }}>
                 <button
                   className="mcb-btn-primary"
@@ -466,7 +469,6 @@ function Home() {
                 counselors in real-time. No names, no judgments — just genuine
                 human support when you need it most.
               </p>
-
               <div className="mcb-anon-points">
                 {[
                   {
