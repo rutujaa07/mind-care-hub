@@ -114,7 +114,7 @@ function Register() {
   const roles = [
     { value: "user", label: "User", icon: "🌿" },
     { value: "counselor", label: "Counselor", icon: "🩺" },
-    { value: "admin", label: "Admin", icon: "🛡️" },
+    // { value: "admin", label: "Admin", icon: "🛡️" },
   ];
 
   return (
