@@ -1,5 +1,5 @@
 // import { useState, useEffect } from "react";
-// import axios from "axios";
+// import API from "../api";
 // import { useAuth } from "../context/AuthContext";
 // import { useNavigate } from "react-router-dom";
 
@@ -19,8 +19,8 @@
 //   // Fetch all users
 //   const fetchUsers = async () => {
 //     try {
-//       const res = await axios.get(
-//         "http://localhost:5000/api/admin/users",
+//       const res = await API.get(
+//         "/api/admin/users",
 //         config
 //       );
 //       setUsers(res.data);
@@ -32,7 +32,7 @@
 //   // Fetch all posts
 //   const fetchPosts = async () => {
 //     try {
-//       const res = await axios.get("http://localhost:5000/api/posts", config);
+//       const res = await API.get("/api/posts", config);
 //       setPosts(res.data);
 //     } catch (err) {
 //       setError("Failed to fetch posts");
@@ -42,8 +42,8 @@
 //   // Fetch stats
 //   const fetchStats = async () => {
 //     try {
-//       const res = await axios.get(
-//         "http://localhost:5000/api/admin/stats",
+//       const res = await API.get(
+//         "/api/admin/stats",
 //         config
 //       );
 //       setStats(res.data);
@@ -55,7 +55,7 @@
 //   // Delete user
 //   const handleDeleteUser = async (id) => {
 //     try {
-//       await axios.delete(`http://localhost:5000/api/admin/users/${id}`, config);
+//       await API.delete(`/api/admin/users/${id}`, config);
 //       fetchUsers();
 //     } catch (err) {
 //       setError("Failed to delete user");
@@ -65,7 +65,7 @@
 //   // Delete post
 //   const handleDeletePost = async (id) => {
 //     try {
-//       await axios.delete(`http://localhost:5000/api/posts/${id}`, config);
+//       await API.delete(`/api/posts/${id}`, config);
 //       fetchPosts();
 //     } catch (err) {
 //       setError("Failed to delete post");
@@ -75,7 +75,7 @@
 //   // Flag post
 //   const handleFlagPost = async (id) => {
 //     try {
-//       await axios.put(`http://localhost:5000/api/posts/flag/${id}`, {}, config);
+//       await API.put(`/api/posts/flag/${id}`, {}, config);
 //       fetchPosts();
 //     } catch (err) {
 //       setError("Failed to flag post");
@@ -186,7 +186,7 @@
 
 // export default Admin;
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../api";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -212,10 +212,7 @@ function Admin() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5000/api/admin/users",
-        config
-      );
+      const res = await API.get("/api/admin/users", config);
       setUsers(res.data);
     } catch {
       setError("Failed to fetch users");
@@ -224,7 +221,7 @@ function Admin() {
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/posts", config);
+      const res = await API.get("/api/posts", config);
       setPosts(res.data);
     } catch {
       setError("Failed to fetch posts");
@@ -233,10 +230,7 @@ function Admin() {
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5000/api/admin/stats",
-        config
-      );
+      const res = await API.get("/api/admin/stats", config);
       setStats(res.data);
     } catch {
       setError("Failed to fetch stats");
@@ -245,7 +239,7 @@ function Admin() {
 
   const handleDeleteUser = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/admin/users/${id}`, config);
+      await API.delete(`/api/admin/users/${id}`, config);
       setConfirmDelete(null);
       fetchUsers();
     } catch {
@@ -255,7 +249,7 @@ function Admin() {
 
   const handleDeletePost = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/posts/${id}`, config);
+      await API.delete(`/api/posts/${id}`, config);
       setConfirmDelete(null);
       fetchPosts();
     } catch {
@@ -265,7 +259,7 @@ function Admin() {
 
   const handleFlagPost = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/posts/flag/${id}`, {}, config);
+      await API.put(`/api/posts/flag/${id}`, {}, config);
       fetchPosts();
     } catch {
       setError("Failed to flag post");

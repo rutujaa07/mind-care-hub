@@ -1,5 +1,5 @@
 // import { useState, useEffect } from "react";
-// import axios from "axios";
+// import API from "../api";
 // import { useAuth } from "../context/AuthContext";
 // import { useNavigate } from "react-router-dom";
 
@@ -15,7 +15,7 @@
 
 //   const fetchConversations = async () => {
 //     try {
-//       const res = await axios.get("http://localhost:5000/api/dm/inbox", config);
+//       const res = await API.get("/api/dm/inbox", config);
 //       setConversations(res.data);
 //     } catch (err) {
 //       setError("Failed to fetch conversations");
@@ -64,7 +64,7 @@
 
 // export default Inbox;
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../api";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
@@ -80,7 +80,7 @@ function Inbox() {
 
   const fetchConversations = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/dm/inbox", config);
+      const res = await API.get("/api/dm/inbox", config);
       setConversations(res.data);
     } catch {
       setError("Failed to fetch conversations");

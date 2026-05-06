@@ -1,5 +1,5 @@
 // import { useState, useEffect } from "react";
-// import axios from "axios";
+// import API from "../api";
 // import { useAuth } from "../context/AuthContext";
 // import Chat from "../components/Chat";
 
@@ -21,8 +21,8 @@
 //   // Fetch user's own requests
 //   const fetchRequests = async () => {
 //     try {
-//       const res = await axios.get(
-//         "http://localhost:5000/api/support/my",
+//       const res = await API.get(
+//         "/api/support/my",
 //         config
 //       );
 //       setRequests(res.data);
@@ -34,8 +34,8 @@
 //   // Fetch messages for a request
 //   const fetchMessages = async (requestId) => {
 //     try {
-//       const res = await axios.get(
-//         `http://localhost:5000/api/support/${requestId}`,
+//       const res = await API.get(
+//         `/api/support/${requestId}`,
 //         config
 //       );
 //       setSelectedRequest(requestId);
@@ -49,8 +49,8 @@
 //   const handleCreateRequest = async (e) => {
 //     e.preventDefault();
 //     try {
-//       await axios.post(
-//         "http://localhost:5000/api/support",
+//       await API.post(
+//         "/api/support",
 //         {
 //           initialMessage,
 //           isAnonymous,
@@ -70,8 +70,8 @@
 //   const handleReply = async (e) => {
 //     e.preventDefault();
 //     try {
-//       await axios.post(
-//         `http://localhost:5000/api/support/${selectedRequest}/user-reply`,
+//       await API.post(
+//         `/api/support/${selectedRequest}/user-reply`,
 //         {
 //           message: reply,
 //         },
@@ -181,7 +181,7 @@
 
 // export default Support;
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../api";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Chat from "../components/Chat";
@@ -230,10 +230,7 @@ function Support() {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5000/api/support/my",
-        config
-      );
+      const res = await API.get("/api/support/my", config);
       setRequests(res.data);
     } catch {
       setError("Failed to fetch requests");
@@ -242,10 +239,7 @@ function Support() {
 
   const fetchMessages = async (requestId) => {
     try {
-      const res = await axios.get(
-        `http://localhost:5000/api/support/${requestId}`,
-        config
-      );
+      const res = await API.get(`/api/support/${requestId}`, config);
       setSelectedRequest(requestId);
       setMessages(res.data.messages);
     } catch {
@@ -256,11 +250,7 @@ function Support() {
   const handleCreateRequest = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        "http://localhost:5000/api/support",
-        { initialMessage, isAnonymous },
-        config
-      );
+      await API.post("/api/support", { initialMessage, isAnonymous }, config);
       setInitialMessage("");
       setSelectedMood(null);
       setSuccess(
@@ -277,8 +267,8 @@ function Support() {
   const handleReply = async (e, reqId) => {
     e.preventDefault();
     try {
-      await axios.post(
-        `http://localhost:5000/api/support/${reqId}/user-reply`,
+      await API.post(
+        `/api/support/${reqId}/user-reply`,
         { message: reply },
         config
       );

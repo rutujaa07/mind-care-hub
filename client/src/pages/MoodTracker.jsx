@@ -1,5 +1,5 @@
 // import { useState, useEffect } from "react";
-// import axios from "axios";
+// import API from "../api";
 // import { useAuth } from "../context/AuthContext";
 // import {
 //   LineChart,
@@ -27,7 +27,7 @@
 //   // Fetch mood history
 //   const fetchMoodHistory = async () => {
 //     try {
-//       const res = await axios.get("http://localhost:5000/api/moods", config);
+//       const res = await API.get("/api/moods", config);
 //       setMoodHistory(res.data);
 //     } catch (err) {
 //       setError("Failed to fetch mood history");
@@ -37,8 +37,8 @@
 //   // Fetch mood summary
 //   const fetchSummary = async () => {
 //     try {
-//       const res = await axios.get(
-//         "http://localhost:5000/api/moods/summary",
+//       const res = await API.get(
+//         "/api/moods/summary",
 //         config
 //       );
 //       setSummary(res.data);
@@ -51,8 +51,8 @@
 //   const handleLogMood = async (e) => {
 //     e.preventDefault();
 //     try {
-//       await axios.post(
-//         "http://localhost:5000/api/moods",
+//       await API.post(
+//         "/api/moods",
 //         {
 //           mood,
 //           note,
@@ -165,7 +165,7 @@
 
 // export default MoodTracker;
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../api";
 import { useAuth } from "../context/AuthContext";
 import {
   LineChart,
@@ -191,7 +191,7 @@ function MoodTracker() {
 
   const fetchMoodHistory = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/moods", config);
+      const res = await API.get("/api/moods", config);
       setMoodHistory(res.data);
     } catch {
       setError("Failed to fetch mood history");
@@ -200,10 +200,7 @@ function MoodTracker() {
 
   const fetchSummary = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5000/api/moods/summary",
-        config
-      );
+      const res = await API.get("/api/moods/summary", config);
       setSummary(res.data);
     } catch {
       setError("Failed to fetch summary");
@@ -213,11 +210,7 @@ function MoodTracker() {
   const handleLogMood = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        "http://localhost:5000/api/moods",
-        { mood, note },
-        config
-      );
+      await API.post("/api/moods", { mood, note }, config);
       setNote("");
       setSuccess("Mood logged successfully!");
       fetchMoodHistory();

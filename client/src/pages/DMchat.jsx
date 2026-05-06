@@ -1,5 +1,5 @@
 // import { useState, useEffect, useRef } from "react";
-// import axios from "axios";
+// import API from "../api";
 // import { useAuth } from "../context/AuthContext";
 // import { useParams, useNavigate } from "react-router-dom";
 // import { getSocket } from "../socket";
@@ -23,7 +23,7 @@
 
 //   const fetchConversation = async () => {
 //     try {
-//       const res = await axios.get(`http://localhost:5000/api/dm/${id}`, config);
+//       const res = await API.get(`/api/dm/${id}`, config);
 //       setConversation(res.data);
 //       setMessages(res.data.messages);
 //     } catch {
@@ -60,8 +60,8 @@
 //     if (!message.trim()) return;
 //     const socket = getSocket();
 //     try {
-//       await axios.post(
-//         `http://localhost:5000/api/dm/${id}/message`,
+//       await API.post(
+//         `/api/dm/${id}/message`,
 //         { message },
 //         config
 //       );
@@ -418,7 +418,7 @@
 
 // export default DMChat;
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import API from "../api";
 import { useAuth } from "../context/AuthContext";
 import { useParams, useNavigate } from "react-router-dom";
 import { getSocket } from "../socket";
@@ -443,7 +443,7 @@ function DMChat() {
 
   const fetchConversation = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/dm/${id}`, config);
+      const res = await API.get(`/api/dm/${id}`, config);
       setConversation(res.data);
       setMessages(res.data.messages);
     } catch {
@@ -482,11 +482,7 @@ function DMChat() {
     if (!message.trim()) return;
     const socket = getSocket();
     try {
-      await axios.post(
-        `http://localhost:5000/api/dm/${id}/message`,
-        { message },
-        config
-      );
+      await API.post(`/api/dm/${id}/message`, { message }, config);
       socket.emit("send_dm", {
         roomId: id,
         message,

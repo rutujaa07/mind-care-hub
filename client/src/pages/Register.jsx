@@ -1,6 +1,6 @@
 // import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
-// import axios from "axios";
+// import API from "../api";
 
 // function Register() {
 //   const [username, setUsername] = useState("");
@@ -17,7 +17,7 @@
 //     setError("");
 
 //     try {
-//       await axios.post("http://localhost:5000/api/auth/register", {
+//       await API.post("/api/auth/register", {
 //         username,
 //         email,
 //         password,
@@ -81,7 +81,7 @@
 // export default Register;
 // import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
-// import axios from "axios";
+// import API from "../api";
 
 // function Register() {
 //   const [username, setUsername] = useState("");
@@ -97,7 +97,7 @@
 //     setLoading(true);
 //     setError("");
 //     try {
-//       await axios.post("http://localhost:5000/api/auth/register", {
+//       await API.post("/api/auth/register", {
 //         username,
 //         email,
 //         password,
@@ -417,10 +417,9 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../api";
 import emailjs from "@emailjs/browser";
 
-// ✅ REPLACE THESE WITH YOUR EMAILJS VALUES
 const EMAILJS_SERVICE_ID = "service_hnbtoyg";
 const EMAILJS_TEMPLATE_ID = "template_033ptii";
 const EMAILJS_PUBLIC_KEY = "ethQ2QJgBLNexOkOx";
@@ -505,7 +504,7 @@ function Register() {
     setOtpError("");
 
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
+      await API.post("/api/auth/register", {
         username,
         email,
         password,

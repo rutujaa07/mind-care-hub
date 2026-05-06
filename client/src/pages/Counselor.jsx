@@ -1,5 +1,5 @@
 // import { useState, useEffect } from "react";
-// import axios from "axios";
+// import API from "../api";
 // import { useAuth } from "../context/AuthContext";
 // import { useNavigate } from "react-router-dom";
 // import Chat from "../components/Chat";
@@ -19,7 +19,7 @@
 
 //   const fetchRequests = async () => {
 //     try {
-//       const res = await axios.get("http://localhost:5000/api/support", config);
+//       const res = await API.get("/api/support", config);
 //       setRequests(res.data);
 //     } catch {
 //       setError("Failed to fetch requests");
@@ -28,8 +28,8 @@
 
 //   const fetchMessages = async (requestId) => {
 //     try {
-//       const res = await axios.get(
-//         `http://localhost:5000/api/support/${requestId}`,
+//       const res = await API.get(
+//         `/api/support/${requestId}`,
 //         config
 //       );
 //       setSelectedRequest(requestId);
@@ -42,8 +42,8 @@
 //   const handleReply = async (e) => {
 //     e.preventDefault();
 //     try {
-//       await axios.post(
-//         `http://localhost:5000/api/support/${selectedRequest}/reply`,
+//       await API.post(
+//         `/api/support/${selectedRequest}/reply`,
 //         { message: reply },
 //         config
 //       );
@@ -58,8 +58,8 @@
 
 //   const handleStatusUpdate = async (requestId, status) => {
 //     try {
-//       await axios.put(
-//         `http://localhost:5000/api/support/${requestId}/status`,
+//       await API.put(
+//         `/api/support/${requestId}/status`,
 //         { status },
 //         config
 //       );
@@ -729,7 +729,7 @@
 
 // export default Counselor;
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import API from "../api";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { getSocket } from "../socket";
@@ -755,7 +755,7 @@ function Counselor() {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/support", config);
+      const res = await API.get("/api/support", config);
       setRequests(res.data);
     } catch {
       setError("Failed to fetch requests");
@@ -764,10 +764,7 @@ function Counselor() {
 
   const fetchMessages = async (requestId) => {
     try {
-      const res = await axios.get(
-        `http://localhost:5000/api/support/${requestId}`,
-        config
-      );
+      const res = await API.get(`/api/support/${requestId}`, config);
       setSelectedRequest(requestId);
       setMessages(res.data.messages);
       setLiveMessages([]);
@@ -779,8 +776,8 @@ function Counselor() {
   const handleReply = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        `http://localhost:5000/api/support/${selectedRequest}/reply`,
+      await API.post(
+        `/api/support/${selectedRequest}/reply`,
         { message: reply },
         config
       );
@@ -795,11 +792,7 @@ function Counselor() {
 
   const handleStatusUpdate = async (requestId, status) => {
     try {
-      await axios.put(
-        `http://localhost:5000/api/support/${requestId}/status`,
-        { status },
-        config
-      );
+      await API.put(`/api/support/${requestId}/status`, { status }, config);
       fetchRequests();
     } catch {
       setError("Failed to update status");

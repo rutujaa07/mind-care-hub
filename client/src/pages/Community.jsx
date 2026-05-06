@@ -1,5 +1,5 @@
 // import { useState, useEffect } from "react";
-// import axios from "axios";
+// import API from "../api";
 // import { useAuth } from "../context/AuthContext";
 // import { useNavigate } from "react-router-dom";
 
@@ -23,9 +23,9 @@
 //   const fetchPosts = async () => {
 //     try {
 //       const url = filterCategory
-//         ? `http://localhost:5000/api/posts?category=${filterCategory}`
-//         : "http://localhost:5000/api/posts";
-//       const res = await axios.get(url, config);
+//         ? `/api/posts?category=${filterCategory}`
+//         : "/api/posts";
+//       const res = await API.get(url, config);
 //       setPosts(res.data);
 //     } catch (err) {
 //       setError("Failed to fetch posts");
@@ -34,8 +34,8 @@
 
 //   const fetchComments = async (postId) => {
 //     try {
-//       const res = await axios.get(
-//         `http://localhost:5000/api/comments/${postId}`,
+//       const res = await API.get(
+//         `/api/comments/${postId}`,
 //         config
 //       );
 //       setComments(res.data);
@@ -47,8 +47,8 @@
 //   const handleCreatePost = async (e) => {
 //     e.preventDefault();
 //     try {
-//       await axios.post(
-//         "http://localhost:5000/api/posts",
+//       await API.post(
+//         "/api/posts",
 //         { content, category, isAnonymous },
 //         config
 //       );
@@ -61,8 +61,8 @@
 
 //   const handleLike = async (postId) => {
 //     try {
-//       await axios.put(
-//         `http://localhost:5000/api/posts/like/${postId}`,
+//       await API.put(
+//         `/api/posts/like/${postId}`,
 //         {},
 //         config
 //       );
@@ -75,8 +75,8 @@
 //   const handleAddComment = async (e) => {
 //     e.preventDefault();
 //     try {
-//       await axios.post(
-//         `http://localhost:5000/api/comments/${selectedPost}`,
+//       await API.post(
+//         `/api/comments/${selectedPost}`,
 //         { content: commentContent, isAnonymous: true },
 //         config
 //       );
@@ -213,7 +213,7 @@
 // export default Community;
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../api";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "./Community.css";
@@ -287,9 +287,9 @@ function Community() {
   const fetchPosts = async () => {
     try {
       const url = filterCategory
-        ? `http://localhost:5000/api/posts?category=${filterCategory}`
-        : "http://localhost:5000/api/posts";
-      const res = await axios.get(url, config);
+        ? `/api/posts?category=${filterCategory}`
+        : "/api/posts";
+      const res = await API.get(url, config);
       setPosts(res.data);
     } catch {
       setError("Failed to fetch posts");
@@ -298,10 +298,7 @@ function Community() {
 
   const fetchComments = async (postId) => {
     try {
-      const res = await axios.get(
-        `http://localhost:5000/api/comments/${postId}`,
-        config
-      );
+      const res = await API.get(`/api/comments/${postId}`, config);
       setComments(res.data);
     } catch {
       setError("Failed to fetch comments");
@@ -311,11 +308,7 @@ function Community() {
   const handleCreatePost = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        "http://localhost:5000/api/posts",
-        { content, category, isAnonymous },
-        config
-      );
+      await API.post("/api/posts", { content, category, isAnonymous }, config);
       setContent("");
       setShowForm(false);
       fetchPosts();
@@ -326,11 +319,7 @@ function Community() {
 
   const handleLike = async (postId) => {
     try {
-      await axios.put(
-        `http://localhost:5000/api/posts/like/${postId}`,
-        {},
-        config
-      );
+      await API.put(`/api/posts/like/${postId}`, {}, config);
       fetchPosts();
     } catch {
       setError("Failed to like post");
@@ -340,8 +329,8 @@ function Community() {
   const handleAddComment = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        `http://localhost:5000/api/comments/${selectedPost}`,
+      await API.post(
+        `/api/comments/${selectedPost}`,
         { content: commentContent, isAnonymous: commentIsAnonymous }, // ✅ FIXED
         config
       );

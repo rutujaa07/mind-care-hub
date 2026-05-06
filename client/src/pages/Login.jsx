@@ -1,6 +1,6 @@
 // import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
-// import axios from "axios";
+// import API from "../api";
 // import { useAuth } from "../context/AuthContext";
 
 // function Login() {
@@ -18,7 +18,7 @@
 //     setError("");
 
 //     try {
-//       const res = await axios.post("http://localhost:5000/api/auth/login", {
+//       const res = await API.post("/api/auth/login", {
 //         email,
 //         password,
 //       });
@@ -198,7 +198,7 @@
 // export default Login;
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../api";
 import { useAuth } from "../context/AuthContext";
 
 function Login() {
@@ -216,7 +216,7 @@ function Login() {
     setError("");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
+      const res = await API.post("/api/auth/login", {
         email,
         password,
       });

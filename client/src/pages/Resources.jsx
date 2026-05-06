@@ -1,5 +1,5 @@
 // import { useState, useEffect } from "react";
-// import axios from "axios";
+// import API from "../api";
 // import { useAuth } from "../context/AuthContext";
 
 // const TYPE_CONFIG = {
@@ -25,8 +25,8 @@
 
 //   const fetchResources = async () => {
 //     try {
-//       const res = await axios.get(
-//         "http://localhost:5000/api/resources",
+//       const res = await API.get(
+//         "/api/resources",
 //         config
 //       );
 //       setResources(res.data);
@@ -38,8 +38,8 @@
 //   const handleAddResource = async (e) => {
 //     e.preventDefault();
 //     try {
-//       await axios.post(
-//         "http://localhost:5000/api/resources",
+//       await API.post(
+//         "/api/resources",
 //         { title, type, content, link },
 //         config
 //       );
@@ -58,7 +58,7 @@
 
 //   const handleDelete = async (id) => {
 //     try {
-//       await axios.delete(`http://localhost:5000/api/resources/${id}`, config);
+//       await API.delete(`/api/resources/${id}`, config);
 //       fetchResources();
 //     } catch {
 //       setError("Failed to delete resource");
@@ -547,7 +547,7 @@
 
 // export default Resources;
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../api";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "./Navbar";
 
@@ -574,10 +574,7 @@ function Resources() {
 
   const fetchResources = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5000/api/resources",
-        config
-      );
+      const res = await API.get("/api/resources", config);
       setResources(res.data);
     } catch {
       setError("Failed to fetch resources");
@@ -587,11 +584,7 @@ function Resources() {
   const handleAddResource = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        "http://localhost:5000/api/resources",
-        { title, type, content, link },
-        config
-      );
+      await API.post("/api/resources", { title, type, content, link }, config);
       setTitle("");
       setContent("");
       setLink("");
@@ -607,7 +600,7 @@ function Resources() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/resources/${id}`, config);
+      await API.delete(`/api/resources/${id}`, config);
       fetchResources();
     } catch {
       setError("Failed to delete resource");

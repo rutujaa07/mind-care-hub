@@ -1,5 +1,5 @@
 // import { useState, useEffect } from "react";
-// import axios from "axios";
+// import API from "../api";
 // import { useAuth } from "../context/AuthContext";
 // import { useParams, useNavigate } from "react-router-dom";
 
@@ -22,8 +22,8 @@
 //   console.log("user id:", user?.id, "profile id:", id);
 //   const fetchProfile = async () => {
 //     try {
-//       const res = await axios.get(
-//         `http://localhost:5000/api/profile/${id}`,
+//       const res = await API.get(
+//         `/api/profile/${id}`,
 //         config
 //       );
 //       setProfile(res.data.user);
@@ -37,8 +37,8 @@
 //   const handleUpdateBio = async (e) => {
 //     e.preventDefault();
 //     try {
-//       await axios.put(
-//         "http://localhost:5000/api/profile/update/bio",
+//       await API.put(
+//         "/api/profile/update/bio",
 //         { bio },
 //         config
 //       );
@@ -53,8 +53,8 @@
 
 //   const handleStartDM = async () => {
 //     try {
-//       const res = await axios.post(
-//         "http://localhost:5000/api/dm/start",
+//       const res = await API.post(
+//         "/api/dm/start",
 //         { recipientId: id },
 //         config
 //       );
@@ -128,12 +128,12 @@
 
 // export default Profile;
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../api";
 import { useAuth } from "../context/AuthContext";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "";
 
 const STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap');
@@ -428,7 +428,7 @@ function Profile() {
     setLoading(true);
     setError("");
     try {
-      const res = await axios.get(`${BASE_URL}/api/profile/${id}`, config);
+      const res = await API.get(`${BASE_URL}/api/profile/${id}`, config);
       setProfile(res.data.user);
       setPosts(res.data.posts);
       setBio(res.data.user.bio || "");
@@ -446,7 +446,7 @@ function Profile() {
   // ── BIO UPDATE ────────────────────────────────────────────
   const handleUpdateBio = async () => {
     try {
-      await axios.put(
+      await API.put(
         `${BASE_URL}/api/profile/update/bio`,
         { bio: bioInput },
         config
@@ -462,7 +462,7 @@ function Profile() {
   // ── LIKE / UNLIKE ─────────────────────────────────────────
   const handleLike = async (postId) => {
     try {
-      const res = await axios.put(
+      const res = await API.put(
         `${BASE_URL}/api/posts/like/${postId}`,
         {},
         config
@@ -482,7 +482,7 @@ function Profile() {
   // ── START DM ──────────────────────────────────────────────
   const handleStartDM = async () => {
     try {
-      const res = await axios.post(
+      const res = await API.post(
         `${BASE_URL}/api/dm/start`,
         { recipientId: id },
         config
