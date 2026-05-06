@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const DM = require("../models/dm");
+const DM = require("../models/DM");
 const { protect } = require("../middleware/authMiddleware");
 
 // START or GET existing conversation
