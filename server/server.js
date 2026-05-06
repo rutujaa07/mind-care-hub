@@ -4,7 +4,16 @@ const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
 require("dotenv").config();
-
+// Review Model
+const reviewSchema = new mongoose.Schema(
+  {
+    userName: { type: String, default: "Anonymous" },
+    rating: { type: Number, default: 5, min: 1, max: 5 },
+    text: { type: String, required: true },
+  },
+  { timestamps: true }
+);
+const Review = mongoose.model("Review", reviewSchema);
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -54,8 +63,54 @@ app.use("/api/admin", adminRoutes);
 const dmRoutes = require("./routes/dm");
 app.use("/api/dm", dmRoutes);
 
+// GET all reviews
+app.get("/api/reviews", async (req, res) => {
+  try {
+    const reviews = await Review.find().sort({ createdAt: -1 }).limit(50);
+    res.json(reviews);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// POST new review
+app.post("/api/reviews", async (req, res) => {
+  try {
+    const { userName, rating, text } = req.body;
+    const review = new Review({ userName, rating, text });
+    await review.save();
+    res.status(201).json(review);
+  } catch (err) {
+    console.error("Review save error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+const statsRoutes = require("./routes/stats");
+app.use("/api/stats", statsRoutes);
+
 const profileRoutes = require("./routes/profile");
 app.use("/api/profile", profileRoutes);
+
+// GET all reviews
+app.get("/api/reviews", async (req, res) => {
+  try {
+    const reviews = await Review.find().sort({ createdAt: -1 }).limit(50);
+    res.json(reviews);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// POST new review
+app.post("/api/reviews", async (req, res) => {
+  try {
+    const review = new Review(req.body);
+    await review.save();
+    res.status(201).json(review);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
 
 // Socket.io
 io.on("connection", (socket) => {

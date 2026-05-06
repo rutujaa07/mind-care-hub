@@ -211,11 +211,13 @@
 // }
 
 // export default Community;
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "./Community.css";
+import Navbar from "./Navbar";
 
 const EXPERTS = [
   {
@@ -272,6 +274,7 @@ function Community() {
   const [selectedPost, setSelectedPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [commentContent, setCommentContent] = useState("");
+  const [commentIsAnonymous, setCommentIsAnonymous] = useState(true); // ✅ NEW
   const [filterCategory, setFilterCategory] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [activeExpert, setActiveExpert] = useState(0);
@@ -339,7 +342,7 @@ function Community() {
     try {
       await axios.post(
         `http://localhost:5000/api/comments/${selectedPost}`,
-        { content: commentContent, isAnonymous: true },
+        { content: commentContent, isAnonymous: commentIsAnonymous }, // ✅ FIXED
         config
       );
       setCommentContent("");
@@ -369,6 +372,7 @@ function Community() {
     <div className="cm-root">
       {/* ── HEADER ── */}
       <header className="cm-header">
+        <Navbar />
         <div className="cm-header-inner">
           <button className="cm-back-btn" onClick={() => navigate("/home")}>
             ← Back
@@ -650,6 +654,8 @@ function Community() {
                           </div>
                         ))}
                       </div>
+
+                      {/* ✅ FIXED: Comment form now has anonymous toggle */}
                       <form
                         className="cm-comment-form"
                         onSubmit={handleAddComment}
@@ -662,6 +668,19 @@ function Community() {
                           onChange={(e) => setCommentContent(e.target.value)}
                           required
                         />
+                        <label className="cm-comment-anon-toggle">
+                          <input
+                            type="checkbox"
+                            checked={commentIsAnonymous}
+                            onChange={(e) =>
+                              setCommentIsAnonymous(e.target.checked)
+                            }
+                          />
+                          <span className="cm-toggle-track">
+                            {/* <span className="cm-toggle-thumb" /> */}
+                          </span>
+                          Anonymous
+                        </label>
                         <button type="submit" className="cm-comment-submit">
                           Send
                         </button>

@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import "../styles/Navbar.css";
+import "./Navbar.css";
 
-export default function Navbar() {
+function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -16,154 +15,84 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [location.pathname]);
-
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
 
-  const go = (path) => {
-    navigate(path);
-    setMenuOpen(false);
-  };
-
-  const isActive = (path) =>
-    location.pathname === path ? "nav-link active" : "nav-link";
-
   const navItems = [
-    { label: "Home", path: "/" },
-    { label: "Community", path: "/community" },
-    { label: "Consider Therapy", path: "/therapy" },
-    { label: "Mood Tracker", path: "/mood" },
-    { label: "Request Support", path: "/support" },
-    { label: "Inbox", path: "/inbox", icon: "fa-regular fa-envelope" },
-    {
-      label: "My Profile",
-      path: `/profile/${user?.id}`,
-      icon: "fa-regular fa-circle-user",
-    },
-    // { label: "Resources",       path: "/resources" },
+    { label: "Home", action: () => navigate("/home") },
+    { label: "Community", action: () => navigate("/community") },
+    { label: "Consider Therapy", action: () => navigate("/support") },
+    { label: "Mood Tracker", action: () => navigate("/mood") },
+    { label: "Expert News & Advice", action: () => navigate("/resources") },
+    { label: "Request Support", action: () => navigate("/support") },
+    { label: "Inbox", action: () => navigate("/inbox") },
+    { label: "My Profile", action: () => navigate(`/profile/${user?.id}`) },
   ];
 
   return (
-    <nav className={`navbar${scrolled ? " scrolled" : ""}`}>
-      <div className="nav-inner">
-        {/* Brand */}
-        <button className="brand" onClick={() => go("/")}>
-          <span className="brand-icon">
-            <i className="fa-solid fa-brain" />
-          </span>
-          <span className="brand-text">
-            Mind<span>Care</span>Hub
-          </span>
-        </button>
-
-        {/* Desktop links */}
-        <ul className="nav-links">
-          {navItems.map((item) => (
-            <li key={item.path}>
-              <button
-                className={isActive(item.path)}
-                onClick={() => go(item.path)}
-              >
-                {item.icon && <i className={item.icon} />}
-                {item.label}
-              </button>
-            </li>
-          ))}
-
-          {/* Expert Advice dropdown */}
-          <li className="nav-dropdown">
-            <button className="nav-link">
-              Expert Advice{" "}
-              <i
-                className="fa-solid fa-chevron-down"
-                style={{ fontSize: "0.65rem" }}
-              />
-            </button>
-            <div className="dropdown-menu">
-              <a className="dropdown-item" href="#news">
-                Mental Health News
-              </a>
-              <a className="dropdown-item" href="#news">
-                Expert Articles
-              </a>
-            </div>
-          </li>
-
-          {/* Role-based links */}
-          {user?.role === "counselor" && (
+    <>
+      <nav className={`mcb-navbar ${scrolled ? "scrolled" : ""}`}>
+        <div className="container">
+          <a className="mcb-logo" href="#home">
+            <div className="mcb-logo-mark">🌿</div>
+            <span className="mcb-logo-text">Mind Care Hub</span>
+          </a>
+          <ul className="mcb-nav-links">
+            {navItems.map((item) => (
+              <li key={item.label}>
+                <button onClick={item.action}>{item.label}</button>
+              </li>
+            ))}
             <li>
-              <button
-                className={isActive("/counselor")}
-                onClick={() => go("/counselor")}
-              >
-                Counselor Dashboard
+              <button className="mcb-nav-logout" onClick={handleLogout}>
+                Logout
               </button>
             </li>
-          )}
-          {user?.role === "admin" && (
-            <li>
-              <button
-                className={isActive("/admin")}
-                onClick={() => go("/admin")}
-              >
-                Admin
-              </button>
-            </li>
-          )}
+          </ul>
+          <button
+            className="mcb-hamburger"
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open menu"
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
+      </nav>
 
-          <li className="desktop-logout">
-            <button className="btn-logout" onClick={handleLogout}>
-              <i className="fa-solid fa-right-from-bracket" /> Logout
-            </button>
-          </li>
-        </ul>
-
-        {/* Hamburger */}
+      {/* Mobile Menu */}
+      <div className={`mcb-mobile-menu ${mobileOpen ? "open" : ""}`}>
         <button
-          className={`hamburger${menuOpen ? " open" : ""}`}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
+          className="mcb-mobile-close"
+          onClick={() => setMobileOpen(false)}
         >
-          <span />
-          <span />
-          <span />
+          ✕
         </button>
-      </div>
-
-      {/* Mobile nav */}
-      <div className={`mobile-nav${menuOpen ? " open" : ""}`}>
         {navItems.map((item) => (
           <button
-            key={item.path}
-            className={isActive(item.path)}
-            onClick={() => go(item.path)}
+            key={item.label}
+            onClick={() => {
+              item.action();
+              setMobileOpen(false);
+            }}
           >
-            {item.icon && <i className={item.icon} />} {item.label}
+            {item.label}
           </button>
         ))}
-        <button className="nav-link" onClick={() => go("/news")}>
-          Expert Advice
-        </button>
-        {user?.role === "counselor" && (
-          <button className="nav-link" onClick={() => go("/counselor")}>
-            Counselor Dashboard
-          </button>
-        )}
-        {user?.role === "admin" && (
-          <button className="nav-link" onClick={() => go("/admin")}>
-            Admin
-          </button>
-        )}
-        <button className="btn-logout" onClick={handleLogout}>
-          <i className="fa-solid fa-right-from-bracket" /> Logout
+        <button
+          onClick={() => {
+            handleLogout();
+            setMobileOpen(false);
+          }}
+        >
+          Logout
         </button>
       </div>
-    </nav>
+    </>
   );
 }
+
+export default Navbar;

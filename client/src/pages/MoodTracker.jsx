@@ -176,6 +176,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import Navbar from "./Navbar";
 
 function MoodTracker() {
   const { token } = useAuth();
@@ -281,10 +282,11 @@ function MoodTracker() {
         * { box-sizing: border-box; }
 
         .mt-page {
+          padding-top: 0;
           min-height: 100vh;
           background: #f5f5f0;
           font-family: 'DM Sans', sans-serif;
-          padding: 32px 24px 48px;
+          {/* padding: 32px 24px 48px; */}
         }
 
         .mt-container {
@@ -527,12 +529,20 @@ function MoodTracker() {
       `}</style>
 
       <div className="mt-page">
-        <div className="mt-container">
-          <div className="mt-header">
-            <h1>Mood Tracker</h1>
-            <p>Check in with yourself — every feeling matters.</p>
-          </div>
+        <header className="sp-header">
+          <Navbar />
 
+          <div className="sp-header-inner">
+            <div className="sp-header-title">
+              <h1>
+                Mood <span className="sp-gradient">Tracker</span>
+              </h1>
+              <p>Check in with yourself — every feeling matters.</p>
+            </div>
+          </div>
+        </header>
+
+        <div className="mt-container">
           {error && <div className="mt-alert mt-alert-error">{error}</div>}
           {success && (
             <div className="mt-alert mt-alert-success">✓ {success}</div>

@@ -186,6 +186,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Chat from "../components/Chat";
 import "./Support.css";
+import Navbar from "./Navbar";
 
 const MOOD_OPTIONS = [
   { emoji: "😊", label: "Good" },
@@ -316,6 +317,8 @@ function Support() {
     <div className="sp-root">
       {/* ── HEADER ── */}
       <header className="sp-header">
+        <Navbar />
+
         <div className="sp-header-inner">
           <button className="sp-back-btn" onClick={() => navigate("/home")}>
             ← Back

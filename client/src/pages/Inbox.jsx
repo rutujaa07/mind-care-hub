@@ -67,6 +67,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 
 function Inbox() {
   const { token, user } = useAuth();
@@ -124,37 +125,19 @@ function Inbox() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap');
-        * { box-sizing: border-box; }
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap');
 
         .inbox-page {
           min-height: 100vh;
           background: #f5f5f0;
           font-family: 'DM Sans', sans-serif;
-          padding: 32px 24px 48px;
+          padding-top: 0;
         }
 
         .inbox-container {
           max-width: 640px;
-          margin: 0 auto;
-        }
-
-        .inbox-header {
-          margin-bottom: 24px;
-        }
-
-        .inbox-header h1 {
-          font-family: 'DM Serif Display', serif;
-          font-size: 32px;
-          font-weight: 400;
-          color: #1a2e1a;
-          margin: 0 0 4px;
-        }
-
-        .inbox-header p {
-          color: #6b7280;
-          font-size: 14px;
-          margin: 0;
+          margin: 24px auto;
+          padding: 0 20px 48px;
         }
 
         .inbox-search-wrap {
@@ -168,7 +151,6 @@ function Inbox() {
           top: 50%;
           transform: translateY(-50%);
           color: #9ca3af;
-          pointer-events: none;
         }
 
         .inbox-search {
@@ -176,16 +158,7 @@ function Inbox() {
           padding: 11px 14px 11px 40px;
           border-radius: 12px;
           border: 1.5px solid #e5e7eb;
-          font-size: 14px;
-          font-family: 'DM Sans', sans-serif;
-          background: white;
-          color: #1a2e1a;
-          outline: none;
-          transition: border-color 0.2s;
         }
-
-        .inbox-search:focus { border-color: #2d7a4f; }
-        .inbox-search::placeholder { color: #c0c0b8; }
 
         .inbox-card {
           background: white;
@@ -194,79 +167,16 @@ function Inbox() {
           overflow: hidden;
         }
 
-        .inbox-error {
-          padding: 12px 16px;
-          background: #fee2e2;
-          color: #dc2626;
-          font-size: 13.5px;
-          border-radius: 10px;
-          margin-bottom: 16px;
-        }
-
-        .inbox-empty {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          padding: 56px 24px;
-          text-align: center;
-        }
-
-        .inbox-empty-icon {
-          width: 56px;
-          height: 56px;
-          background: #f0fdf4;
-          border-radius: 16px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 26px;
-          margin-bottom: 14px;
-        }
-
-        .inbox-empty h3 {
-          font-family: 'DM Serif Display', serif;
-          font-size: 18px;
-          font-weight: 400;
-          color: #1a2e1a;
-          margin: 0 0 6px;
-        }
-
-        .inbox-empty p {
-          font-size: 13.5px;
-          color: #9ca3af;
-          margin: 0;
-          max-width: 260px;
-          line-height: 1.5;
-        }
-
-        .inbox-list {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-
         .inbox-item {
           display: flex;
-          align-items: center;
           gap: 14px;
-          padding: 16px 20px;
+          padding: 16px;
           cursor: pointer;
-          transition: background 0.15s;
           border-bottom: 1px solid #f5f5f0;
-          position: relative;
-        }
-
-        .inbox-item:last-child {
-          border-bottom: none;
         }
 
         .inbox-item:hover {
           background: #fafaf7;
-        }
-
-        .inbox-item:active {
-          background: #f0fdf4;
         }
 
         .inbox-avatar {
@@ -276,107 +186,71 @@ function Inbox() {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 14px;
           font-weight: 600;
-          flex-shrink: 0;
         }
 
         .inbox-item-body {
           flex: 1;
-          min-width: 0;
-        }
-
-        .inbox-item-top {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 3px;
         }
 
         .inbox-item-name {
-          font-size: 14.5px;
           font-weight: 600;
-          color: #1a2e1a;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          max-width: 200px;
         }
 
         .inbox-item-time {
           font-size: 12px;
           color: #9ca3af;
-          flex-shrink: 0;
         }
 
-        .inbox-item-msg {
-          font-size: 13.5px;
-          color: #6b7280;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .inbox-item-arrow {
-          color: #d1d5db;
-          flex-shrink: 0;
-          margin-left: 8px;
+        .inbox-empty {
+          text-align: center;
+          padding: 50px;
+          color: #9ca3af;
         }
 
         .inbox-count {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          background: #2d7a4f;
-          color: white;
-          font-size: 11px;
-          font-weight: 600;
+          background: white;
+          color: #2d7a4f;
+          font-size: 12px;
           border-radius: 20px;
-          min-width: 20px;
-          height: 20px;
-          padding: 0 6px;
+          padding: 2px 8px;
           margin-left: 8px;
-        }
-
-        @media (max-width: 480px) {
-          .inbox-item { padding: 14px 16px; }
-          .inbox-item-name { max-width: 140px; }
         }
       `}</style>
 
       <div className="inbox-page">
-        <div className="inbox-container">
-          <div className="inbox-header">
-            <h1>
-              Inbox
-              {conversations.length > 0 && (
-                <span className="inbox-count">{conversations.length}</span>
-              )}
-            </h1>
-            <p>Your private conversations</p>
+        {/* HEADER */}
+        <header className="sp-header">
+          <Navbar />
+          <div className="sp-header-inner">
+            <div className="sp-header-title">
+              <h1>
+                Inbox <span className="sp-gradient">Messages</span>
+                {conversations.length > 0 && (
+                  <span className="inbox-count">{conversations.length}</span>
+                )}
+              </h1>
+              <p>Your private conversations</p>
+            </div>
           </div>
+        </header>
 
-          {error && <div className="inbox-error">{error}</div>}
+        <div className="inbox-container">
+          {error && <div style={{ color: "red" }}>{error}</div>}
 
           {conversations.length > 0 && (
             <div className="inbox-search-wrap">
-              <svg
-                className="inbox-search-icon"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              <svg className="inbox-search-icon" width="16" height="16">
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="8"
+                  stroke="currentColor"
+                  fill="none"
+                />
               </svg>
               <input
                 className="inbox-search"
-                type="text"
                 placeholder="Search conversations…"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -386,66 +260,37 @@ function Inbox() {
 
           <div className="inbox-card">
             {filtered.length === 0 ? (
-              <div className="inbox-empty">
-                <div className="inbox-empty-icon">💬</div>
-                <h3>{search ? "No results found" : "No conversations yet"}</h3>
-                <p>
-                  {search
-                    ? "Try a different name or clear your search."
-                    : "Head to the community and message someone to get started!"}
-                </p>
-              </div>
+              <div className="inbox-empty">No conversations</div>
             ) : (
-              <ul className="inbox-list">
-                {filtered.map((convo) => {
-                  const other = convo.participants?.find(
-                    (p) => p._id !== user?.id
-                  );
-                  const name = other?.username || "Unknown";
-                  const av = getAvatarColor(name);
+              filtered.map((convo) => {
+                const other = convo.participants?.find(
+                  (p) => p._id !== user?.id
+                );
+                const name = other?.username || "Unknown";
+                const av = getAvatarColor(name);
 
-                  return (
-                    <li
-                      key={convo._id}
-                      className="inbox-item"
-                      onClick={() => navigate(`/dm/${convo._id}`)}
+                return (
+                  <div
+                    key={convo._id}
+                    className="inbox-item"
+                    onClick={() => navigate(`/dm/${convo._id}`)}
+                  >
+                    <div
+                      className="inbox-avatar"
+                      style={{ background: av.bg, color: av.color }}
                     >
-                      <div
-                        className="inbox-avatar"
-                        style={{ background: av.bg, color: av.color }}
-                      >
-                        {getInitials(name)}
-                      </div>
+                      {getInitials(name)}
+                    </div>
 
-                      <div className="inbox-item-body">
-                        <div className="inbox-item-top">
-                          <span className="inbox-item-name">{name}</span>
-                          <span className="inbox-item-time">
-                            {formatTime(convo.lastMessageAt)}
-                          </span>
-                        </div>
-                        <div className="inbox-item-msg">
-                          {convo.lastMessage || "No messages yet"}
-                        </div>
+                    <div className="inbox-item-body">
+                      <div className="inbox-item-name">{name}</div>
+                      <div className="inbox-item-time">
+                        {formatTime(convo.lastMessageAt)}
                       </div>
-
-                      <svg
-                        className="inbox-item-arrow"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polyline points="9 18 15 12 9 6" />
-                      </svg>
-                    </li>
-                  );
-                })}
-              </ul>
+                    </div>
+                  </div>
+                );
+              })
             )}
           </div>
         </div>
