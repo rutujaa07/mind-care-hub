@@ -56,7 +56,7 @@
 //   const [stats, setStats] = useState(null);
 
 //   useEffect(() => {
-//     fetch("/api/stats")
+//     fetch(`${import.meta.env.VITE_API_URL}/api/stats`)
 //       .then((res) => res.json())
 //       .then((data) => setStats(data))
 //       .catch((err) => console.error("Stats fetch error:", err));
@@ -478,7 +478,7 @@
 //   const [stats, setStats] = useState(null);
 
 //   useEffect(() => {
-//     fetch("/api/stats")
+//     fetch(`${import.meta.env.VITE_API_URL}/api/stats`)
 //       .then((res) => res.json())
 //       .then((data) => setStats(data))
 //       .catch((err) => console.error("Stats fetch error:", err));
@@ -869,14 +869,14 @@
 //   const [reviews, setReviews] = useState(null);
 
 //   useEffect(() => {
-//     fetch("/api/stats")
+//     fetch(`${import.meta.env.VITE_API_URL}/api/stats`)
 //       .then((res) => res.json())
 //       .then((data) => setStats(data))
 //       .catch((err) => console.error("Stats fetch error:", err));
 //   }, []);
 
 //   useEffect(() => {
-//     fetch("/api/reviews")
+//     fetch(`${import.meta.env.VITE_API_URL}/api/reviews`)
 //       .then((res) => res.json())
 //       .then((data) => setReviews(data))
 //       .catch((err) => console.error("Reviews fetch error:", err));
@@ -1543,14 +1543,14 @@ function Home() {
   const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error'
 
   useEffect(() => {
-    fetch("/api/stats")
+    fetch(`${import.meta.env.VITE_API_URL}/api/stats`)
       .then((res) => res.json())
       .then((data) => setStats(data))
       .catch((err) => console.error("Stats fetch error:", err));
   }, []);
 
   const fetchReviews = () => {
-    fetch("/api/reviews")
+    fetch(`${import.meta.env.VITE_API_URL}/api/reviews`)
       .then((res) => res.json())
       .then((data) => setReviews(data))
       .catch((err) => console.error("Reviews fetch error:", err));
@@ -1595,7 +1595,7 @@ function Home() {
     setSubmitting(true);
     setSubmitStatus(null);
     try {
-      const res = await fetch("/api/reviews", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/reviews`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
